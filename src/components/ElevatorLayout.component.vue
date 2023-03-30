@@ -1,16 +1,18 @@
 <template>
   <div class="elevator-layout">
-    //TODO: add elevator UI component
+    <ElevatorWrapperComponent />
     <FloorsWrapperComponent />
   </div>
 </template>
 
 <script>
 import FloorsWrapperComponent from "./FloorsWrapper.component.vue";
+import ElevatorWrapperComponent from "./ElevatorWrapper.component.vue";
 
 export default {
   name: "ElevatorLayout",
   components: {
+    ElevatorWrapperComponent,
     FloorsWrapperComponent,
   },
 };
