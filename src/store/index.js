@@ -6,6 +6,10 @@ export const store = createStore({
 
   plugins: [
     createLogger(),
-    // TODO: add store sub to set state in localStor
+    (store) => {
+      store.subscribe((mutations, state) => {
+        localStorage.setItem("vuex-state", JSON.stringify(state));
+      });
+    },
   ],
 });

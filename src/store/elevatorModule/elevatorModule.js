@@ -146,7 +146,14 @@ export default {
       };
     },
 
-    [GET_STATE_FROM_STORAGE]() {},
+    [GET_STATE_FROM_STORAGE](state) {
+      const prevState = localStorage.getItem("vuex-state");
+
+      if (prevState && prevState !== "undefined") {
+        const preparedPrevState = JSON.parse(prevState);
+        this.replaceState({ ...state, ...preparedPrevState });
+      }
+    },
 
     [INCREMENT_SETTING_PROP](state, propName) {
       if (propName === "elevatorsQuantity") {
