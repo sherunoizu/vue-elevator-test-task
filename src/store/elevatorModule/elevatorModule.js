@@ -20,7 +20,19 @@ export default {
       elevatorsQuantity: 1,
     };
   },
-  getters: {},
+  getters: {
+    overallFloorsQue: (state) =>
+      state.elevatorsData.map((elevator) => elevator.floorsQue).flat(),
+
+    overallTargetFloors: (state) =>
+      state.elevatorsData.map((elevator) => elevator.targetFloor),
+
+    overallCurrentFloors: (state) =>
+      state.elevatorsData.map((elevator) => elevator.currentFloor),
+
+    overallElevatorStatus: (state) =>
+      state.elevatorsData.map((elevator) => elevator.status),
+  },
   actions: {
     increment({ commit }, settingProp) {
       commit(INCREMENT_SETTING_PROP, settingProp);
