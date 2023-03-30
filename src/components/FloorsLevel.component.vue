@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "FloorsLevel",
@@ -53,9 +53,10 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["processFloor"]),
+
     floorButtonClickHandler(floorNumber) {
-      console.log(floorNumber);
-      // TODO: add action to change floor
+      this.processFloor(floorNumber);
     },
   },
 };

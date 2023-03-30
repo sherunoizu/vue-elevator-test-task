@@ -12,7 +12,11 @@
         getElevatorWaitingClass(floorNumber)
       "
     >
-      //TODO: elev InfoPanel
+      <ElevatorInfoComponent
+        v-if="isActiveElevator(floorNumber)"
+        :targetFloorNumber="targetFloor"
+        :moveDirection="moveDirection"
+      />
     </div>
   </div>
 </template>
@@ -25,9 +29,11 @@ import {
   ELEVATOR_MOVING_DIRECTION,
 } from "@/store/elevatorModule/elevatorConstants";
 
+import ElevatorInfoComponent from "./ElevatorInfo.component.vue";
+
 export default {
   name: "ElevatorCab",
-  components: {},
+  components: { ElevatorInfoComponent },
   props: {
     id: {
       type: Number,
@@ -62,7 +68,11 @@ export default {
     }),
 
     moveDirection() {
-      return this.targetFloor - this.currentFloor >= 0
+      const floorDifference = this.targetFloor - this.currentFloor;
+
+      return floorDifference === 0
+        ? ""
+        : floorDifference > 0
         ? ELEVATOR_MOVING_DIRECTION.UP
         : ELEVATOR_MOVING_DIRECTION.DOWN;
     },
@@ -97,6 +107,28 @@ export default {
         ? "elevator-floor--chill"
         : "";
     },
+  },
+  watch: {
+    statusState() {
+      const currentElevator = this.elevatorState.map((item) => item.status);
+      if (
+        this.floorsQue.length !== 0 &&
+        currentElevator[this.id] === ELEVATOR_STATUS.VACANT
+      ) {
+        this.processFloor(this.floorsQue[0]);
+      }
+    },
+  },
+  mounted() {
+    if (this.status !== ELEVATOR_STATUS.VACANT) {
+      this.continueOperations({
+        id: this.id,
+        targetFloor: this.targetFloor,
+        currentFloor: this.currentFloor,
+        status: this.status,
+        floorsQue: this.floorsQue,
+      });
+    }
   },
 };
 </script>
