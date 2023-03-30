@@ -1,12 +1,14 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <ElevatorLayoutComponent />
   </div>
 </template>
 
 <script>
+import ElevatorLayoutComponent from "@/components/ElevatorLayout.component.vue";
+
 export default {
   name: "HomeView",
-  components: {},
+  components: { ElevatorLayoutComponent },
 };
 </script>
