@@ -10,10 +10,12 @@ const {
   RESET_ALL_ELEVATORS,
 } = elevatorTypes;
 
+import { addNewElevator } from "./helpFunctions";
+
 export default {
   state() {
     return {
-      elevatorsData: [],
+      elevatorsData: [...addNewElevator()],
       floorsQuantity: 5,
       elevatorsQuantity: 1,
     };
