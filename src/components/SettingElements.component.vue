@@ -55,17 +55,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "SettingElements",
   computed: {
-    floorsQuantity() {
-      return this.$store.state.elevatorModule.floorsQuantity;
-    },
-    elevatorsQuantity() {
-      return this.$store.state.elevatorModule.elevatorsQuantity;
-    },
+    ...mapState({
+      floorsQuantity: (state) => state.elevatorModule.floorsQuantity,
+      elevatorsQuantity: (state) => state.elevatorModule.elevatorModule,
+    }),
   },
   methods: {
     ...mapActions(["increment"]),
