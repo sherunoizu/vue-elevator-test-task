@@ -106,6 +106,9 @@ export default {
     decrement({ commit }, settingProp) {
       commit(DECREMENT_SETTING_PROP, settingProp);
     },
+    resetAllElevators({ commit }) {
+      commit(RESET_ALL_ELEVATORS);
+    },
   },
   mutations: {
     [ADD_FLOOR_TO_ELEVATOR_QUE](state, { floorNumber, elevatorId }) {
@@ -163,6 +166,12 @@ export default {
       state[propName]--;
     },
 
-    [RESET_ALL_ELEVATORS]() {},
+    [RESET_ALL_ELEVATORS](state) {
+      state.elevatorsData = state.elevatorsData.map((elevator) => ({
+        ...elevator,
+        targetFloor: 1,
+        currentFloor: 1,
+      }));
+    },
   },
 };

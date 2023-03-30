@@ -37,7 +37,7 @@
       </div>
       <div>
         <div
-          v-show="elevatorsQuantity < 8"
+          v-show="this.elevatorsQuantity < 8"
           class="setting-buttons--item"
           @click="incrementSetting('elevatorsQuantity')"
         >
@@ -48,7 +48,7 @@
   </div>
   <div class="setting-element">
     <p>RESET ALL ELVATORS</p>
-    <div class="setting-reset" @click="console.log('add')">
+    <div class="setting-reset" @click="reset()">
       <div>RESET</div>
     </div>
   </div>
@@ -62,7 +62,7 @@ export default {
   computed: {
     ...mapState({
       floorsQuantity: (state) => state.elevatorModule.floorsQuantity,
-      elevatorsQuantity: (state) => state.elevatorModule.elevatorModule,
+      elevatorsQuantity: (state) => state.elevatorModule.elevatorsQuantity,
     }),
   },
   methods: {
@@ -75,6 +75,9 @@ export default {
     },
     decrementSetting(settingProp) {
       this.decrement(settingProp);
+    },
+    reset() {
+      this.resetAllElevators();
     },
   },
 };
