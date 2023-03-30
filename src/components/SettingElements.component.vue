@@ -7,7 +7,7 @@
         <div
           v-show="floorsQuantity > 1"
           class="setting-buttons--item"
-          @click="console.log('add')"
+          @click="decrementSetting('floorsQuantity')"
         >
           -
         </div>
@@ -16,7 +16,7 @@
         <div
           v-show="floorsQuantity < 15"
           class="setting-buttons--item"
-          @click="console.log('add')"
+          @click="incrementSetting('floorsQuantity')"
         >
           +
         </div>
@@ -30,7 +30,7 @@
         <div
           v-show="this.elevatorsQuantity > 1"
           class="setting-buttons--item"
-          @click="console.log('add')"
+          @click="decrementSetting('elevatorsQuantity')"
         >
           -
         </div>
@@ -39,7 +39,7 @@
         <div
           v-show="elevatorsQuantity < 8"
           class="setting-buttons--item"
-          @click="console.log('add')"
+          @click="incrementSetting('elevatorsQuantity')"
         >
           +
         </div>
@@ -48,18 +48,36 @@
   </div>
   <div class="setting-element">
     <p>RESET ALL ELVATORS</p>
-    <div class="setting-reset"><div>RESET</div></div>
+    <div class="setting-reset" @click="console.log('add')">
+      <div>RESET</div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "SettingElements",
-  data() {
-    return {
-      elevatorsQuantity: 1,
-      floorsQuantity: 5,
-    };
+  computed: {
+    floorsQuantity() {
+      return this.$store.state.elevatorModule.floorsQuantity;
+    },
+    elevatorsQuantity() {
+      return this.$store.state.elevatorModule.elevatorsQuantity;
+    },
+  },
+  methods: {
+    ...mapActions(["increment"]),
+    ...mapActions(["decrement"]),
+    ...mapActions(["resetAllElevators"]),
+
+    incrementSetting(settingProp) {
+      this.increment(settingProp);
+    },
+    decrementSetting(settingProp) {
+      this.decrement(settingProp);
+    },
   },
 };
 </script>

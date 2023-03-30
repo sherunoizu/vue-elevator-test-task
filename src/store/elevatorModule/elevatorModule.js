@@ -21,7 +21,14 @@ export default {
     };
   },
   getters: {},
-  actions: {},
+  actions: {
+    increment({ commit }, settingProp) {
+      commit(INCREMENT_SETTING_PROP, settingProp);
+    },
+    decrement({ commit }, settingProp) {
+      commit(DECREMENT_SETTING_PROP, settingProp);
+    },
+  },
   mutations: {
     [ADD_FLOOR_TO_ELEVATOR_QUE]() {},
 
@@ -33,9 +40,23 @@ export default {
 
     [GET_STATE_FROM_STORAGE]() {},
 
-    [INCREMENT_SETTING_PROP]() {},
+    [INCREMENT_SETTING_PROP](state, propName) {
+      if (propName === "elevatorsQuantity") {
+        const newElevator = addNewElevator(state.elevatorsData.length);
 
-    [DECREMENT_SETTING_PROP]() {},
+        state.elevatorsData = [...state.elevatorsData, ...newElevator];
+      }
+
+      state[propName]++;
+    },
+
+    [DECREMENT_SETTING_PROP](state, propName) {
+      if (propName === "elevatorsQuantity") {
+        state.elevatorsData = state.elevatorsData.slice(0, -1);
+      }
+
+      state[propName]--;
+    },
 
     [RESET_ALL_ELEVATORS]() {},
   },
