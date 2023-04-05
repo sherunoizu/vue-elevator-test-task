@@ -33,8 +33,10 @@ export default {
     ...mapGetters(["overallFloorsQue"]),
 
     isActiveFloor() {
+      const uniqArr = new Set(...this.overallFloorsQue);
+
       return (
-        this.overallFloorsQue.includes(this.floorNumber) ||
+        uniqArr.has(this.floorNumber) ||
         this.elevatorsData
           .filter((elevator) => elevator.currentFloor !== elevator.targetFloor)
           .findIndex(

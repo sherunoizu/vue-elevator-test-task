@@ -1,5 +1,6 @@
 <template>
   <div class="elevator-shaft">
+    elevator #{{ this.id }}
     <div
       v-for="floorNumber in stateFloorsQuantity"
       :key="floorNumber"
@@ -111,6 +112,7 @@ export default {
   watch: {
     statusState() {
       const currentElevator = this.elevatorState.map((item) => item.status);
+
       if (
         this.floorsQue.length !== 0 &&
         currentElevator[this.id] === ELEVATOR_STATUS.VACANT
