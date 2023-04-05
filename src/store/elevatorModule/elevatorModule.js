@@ -8,6 +8,7 @@ const {
   INCREMENT_SETTING_PROP,
   DECREMENT_SETTING_PROP,
   RESET_ALL_ELEVATORS,
+  POP_QUE,
 } = elevatorTypes;
 
 import { ELEVATOR_STATUS } from "./elevatorConstants";
@@ -28,7 +29,7 @@ export default {
   },
   getters: {
     overallFloorsQue: (state) =>
-      state.elevatorsData.map((elevator) => elevator.floorsQue).flat(),
+      state.elevatorsData.map((elevator) => elevator.floorsQue),
 
     overallTargetFloors: (state) =>
       state.elevatorsData.map((elevator) => elevator.targetFloor),
@@ -55,6 +56,10 @@ export default {
   },
   actions: {
     processFloor({ commit, state, getters }, floorNumber) {
+      const indexTriggerElev = getters.overallFloorsQue.findIndex((item) =>
+        item.includes(floorNumber)
+      );
+
       if (getters.elevatorIdExecutingFloor(floorNumber) !== -1) return;
 
       if (getters.vacantElevatorIdByCurrentFloor(floorNumber) !== -1) return;
@@ -73,6 +78,15 @@ export default {
         state.elevatorsData[lessBusyElevatorId].status ===
         ELEVATOR_STATUS.VACANT
       ) {
+        if (
+          indexTriggerElev !== -1 &&
+          indexTriggerElev !== lessBusyElevatorId
+        ) {
+          commit(POP_QUE, {
+            elevatorId: indexTriggerElev,
+          });
+        }
+
         commit(PASS_FLOOR_TO_ELEVATOR, {
           floorNumber,
           elevatorId: lessBusyElevatorId,
@@ -129,6 +143,17 @@ export default {
         floorsQue,
         targetFloor: floorNumber,
         status: ELEVATOR_STATUS.BUSY,
+      };
+    },
+
+    [POP_QUE](state, { elevatorId }) {
+      const floorsQue = { ...state.elevatorsData[elevatorId] }.floorsQue;
+
+      floorsQue.splice(0, 1);
+
+      state.elevatorsData[elevatorId] = {
+        ...state.elevatorsData[elevatorId],
+        floorsQue,
       };
     },
 
